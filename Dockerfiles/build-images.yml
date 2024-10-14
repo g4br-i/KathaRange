@@ -1,0 +1,30 @@
+services:
+  kali:
+    build:
+      context: kali/
+    image: kali_art:${KALI_VERSION}
+    hostname: kali
+
+  snort:
+    build:
+      context: snort/
+      dockerfile: Dockerfile
+    image: snort3_quagga_nfq:${SNORT_VERSION}
+    hostname: snort
+
+  tomcat:
+    build:
+      context: tomcat/
+      dockerfile: Dockerfile
+    image: tomcat_lab:${TOMCAT_VERSION}
+
+  caldera:
+    build:
+      context: ../deps/caldera/
+      dockerfile: ../../Dockerfiles/caldera/Dockerfile
+    image: caldera_kathara:${CALDERA_VERSION}
+
+  vuln_apache:
+    build:
+      context: vuln_apache/
+    image: vuln_apache:${VULN_APACHE_VERSION}

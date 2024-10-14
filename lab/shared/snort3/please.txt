@@ -1,0 +1,1 @@
+snort -Q --daq-dir /usr/local/lib/daq/ --daq nfq --daq-var queue=1 -c /home/snorty/snort3/etc/snort/snort.lua -D

@@ -1,0 +1,9 @@
+lab*-*.zip
+*netkit*.*
+**/logs/*.txt
+**/logs/*.log
+snort3-community.rules
+snortrules-snapshot-31470.tar.gz
+**/shared/wazuh*.deb
+deps/**
+

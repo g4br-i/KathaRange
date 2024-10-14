@@ -1,0 +1,1 @@
+/home/snorty/snort3/bin/snort -c /home/snorty/snort3/etc/snort/snort.lua -i eth0:eth1:eth2:eth3 --tweaks inline_fuck -Q -D

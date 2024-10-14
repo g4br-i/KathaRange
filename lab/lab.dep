@@ -1,0 +1,14 @@
+kali: r4 r5 r3 r2 r1 caldera
+apache2_1: kali
+apache2_2: kali
+pc1: kali
+tomcat2_1: kali
+tomcat2_2: kali
+caldera: r1
+r5: r4
+r3: r4 r5
+r2: r4 r5 r3
+r1: r4 r5 r3 r2
+w_dashboard: w_indexer
+w_indexer: w_manager
+w_manager: r1

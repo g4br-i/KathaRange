@@ -1,0 +1,42 @@
+{
+    "interfaces": {
+        "lo": {
+            "ip_addresses": [
+                "127.0.0.1/8",
+                "::1/128"
+            ],
+            "state": "UNKNOWN"
+        },
+        "eth0": {
+            "ip_addresses": [
+                "192.168.3.10/24"
+            ],
+            "state": "UP"
+        }
+    },
+    "route": [
+        {
+            "dst": "default",
+            "gateway": "192.168.3.1",
+            "dev": "eth0",
+            "flags": []
+        },
+        {
+            "dst": "192.168.3.0/24",
+            "dev": "eth0",
+            "protocol": "kernel",
+            "scope": "link",
+            "prefsrc": "192.168.3.10",
+            "flags": []
+        }
+    ],
+    "listening_ports": [],
+    "processes": [
+        "/bin/bash -c umount /etc/resolv.conf; umount /etc/hosts; if [ -d \"/hostlab/apache2_1\" ]; then (cd /hostlab/apache2_1 && tar c .) | (cd / && tar xhf - --no-same-owner --no-same-permissions); fi; if [ ! -s \"/etc/hosts\" ]; then echo '127.0.0.1 localhost' > /etc/hosts; echo '::1 localhost' >> /etc/hosts; fi; if [ -d \"/var/www\" ]; then chmod -R 777 /var/www/*; fi; if [ -d \"/etc/quagga\" ]; then chown -R quagga:quagga /etc/quagga/; chmod 640 /etc/quagga/*; fi; if [ -d \"/etc/frr\" ]; then chown -R frr:frr /etc/frr/; chmod 640 /etc/frr/*; fi; if [ -f \"/hostlab/shared.startup\" ]; then chmod u+x /hostlab/shared.startup; sed -i \"1s;^;set -x\\n\\n;\" /hostlab/shared.startup; /hostlab/shared.startup &> /var/log/shared.log; fi; if [ -f \"/hostlab/apache2_1.startup\" ]; then chmod u+x /hostlab/apache2_1.startup; sed -i \"1s;^;set -x\\n\\n;\" /hostlab/apache2_1.startup; /hostlab/apache2_1.startup &> /var/log/startup.log; fi; :; touch /tmp/EOS",
+        "/bin/bash -c umount /etc/resolv.conf; umount /etc/hosts; if [ -d \"/hostlab/apache2_1\" ]; then (cd /hostlab/apache2_1 && tar c .) | (cd / && tar xhf - --no-same-owner --no-same-permissions); fi; if [ ! -s \"/etc/hosts\" ]; then echo '127.0.0.1 localhost' > /etc/hosts; echo '::1 localhost' >> /etc/hosts; fi; if [ -d \"/var/www\" ]; then chmod -R 777 /var/www/*; fi; if [ -d \"/etc/quagga\" ]; then chown -R quagga:quagga /etc/quagga/; chmod 640 /etc/quagga/*; fi; if [ -d \"/etc/frr\" ]; then chown -R frr:frr /etc/frr/; chmod 640 /etc/frr/*; fi; if [ -f \"/hostlab/shared.startup\" ]; then chmod u+x /hostlab/shared.startup; sed -i \"1s;^;set -x\\n\\n;\" /hostlab/shared.startup; /hostlab/shared.startup &> /var/log/shared.log; fi; if [ -f \"/hostlab/apache2_1.startup\" ]; then chmod u+x /hostlab/apache2_1.startup; sed -i \"1s;^;set -x\\n\\n;\" /hostlab/apache2_1.startup; /hostlab/apache2_1.startup &> /var/log/startup.log; fi; :; touch /tmp/EOS",
+        "/usr/bin/python3 /usr/local/bin/systemctl start apache2",
+        "/usr/sbin/apache2 -k start",
+        "bash",
+        "ps -e -o command"
+    ]
+}

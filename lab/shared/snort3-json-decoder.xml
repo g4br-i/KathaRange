@@ -1,0 +1,5 @@
+<decoder name="snort">
+	<prematch>alert_json.txt </prematch>
+	<plugin_decoder offset="after_prematch">JSON_Decoder</plugin_decoder>
+	<type>ids</type>
+</decoder>

@@ -1,0 +1,54 @@
+{
+    "interfaces": {
+        "lo": {
+            "ip_addresses": [
+                "127.0.0.1/8",
+                "::1/128"
+            ],
+            "state": "UNKNOWN"
+        },
+        "eth0": {
+            "ip_addresses": [
+                "10.10.3.2/29"
+            ],
+            "state": "UP"
+        },
+        "eth1": {
+            "ip_addresses": [
+                "192.168.2.1/24"
+            ],
+            "state": "UP"
+        }
+    },
+    "route": [
+        {
+            "dst": "10.10.3.0/29",
+            "dev": "eth0",
+            "protocol": "kernel",
+            "scope": "link",
+            "prefsrc": "10.10.3.2",
+            "flags": []
+        },
+        {
+            "dst": "192.168.2.0/24",
+            "dev": "eth1",
+            "protocol": "kernel",
+            "scope": "link",
+            "prefsrc": "192.168.2.1",
+            "flags": []
+        }
+    ],
+    "listening_ports": [
+        "raw        0      0 0.0.0.0:89              0.0.0.0:*               7          ",
+        "raw6       0      0 :::58                   :::*                    7          ",
+        "tcp        0      0 127.0.0.1:2601          0.0.0.0:*               LISTEN     ",
+        "tcp        0      0 127.0.0.1:2604          0.0.0.0:*               LISTEN     "
+    ],
+    "processes": [
+        "/usr/sbin/ospfd --daemon -A 127.0.0.1",
+        "/usr/sbin/watchquagga --daemon zebra ospfd",
+        "/usr/sbin/zebra --daemon -A 127.0.0.1",
+        "bash",
+        "ps -e -o command"
+    ]
+}
