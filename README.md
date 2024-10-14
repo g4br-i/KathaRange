@@ -9,7 +9,7 @@ the script will automatically clone all dependencies and build all images needed
 
 Once the process is completed, navigate to the folder:
 ```
-cd kathara_lab_caldera
+cd lab
 kathara lstart
 ```
 Then wait for all terminals to completely load the startup scripts, then you will able to access all servicies.
