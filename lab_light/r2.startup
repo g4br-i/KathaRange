@@ -1,0 +1,7 @@
+ip address add 10.10.2.2/29 dev eth0
+ip address add 192.168.0.1/24 dev eth1
+
+echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
+
+iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
+/etc/init.d/zebra start

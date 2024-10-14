@@ -1,0 +1,16 @@
+ip address add 192.168.2.22/24 dev eth0
+ip route add 192.168.0.0/16 via 192.168.2.1 dev eth0
+
+mkdir -p /usr/share/wazuh-indexer/certs/ 
+cp -p /shared/wazuh_indexer_ssl_certs/root-ca.pem /usr/share/wazuh-indexer/certs/root-ca.pem
+cp -p /shared/wazuh_indexer_ssl_certs/wazuh.indexer-key.pem /usr/share/wazuh-indexer/certs/wazuh.indexer.key
+cp -p /shared/wazuh_indexer_ssl_certs/wazuh.indexer.pem /usr/share/wazuh-indexer/certs/wazuh.indexer.pem
+cp /shared/wazuh_indexer_ssl_certs/admin.pem /usr/share/wazuh-indexer/certs/admin.pem
+cp /shared/wazuh_indexer_ssl_certs/admin-key.pem /usr/share/wazuh-indexer/certs/admin-key.pem
+cp /shared/wazuh_indexer/wazuh.indexer.yml /usr/share/wazuh-indexer/opensearch.yml
+cp /shared/wazuh_indexer/internal_users.yml /usr/share/wazuh-indexer/opensearch-security/internal_users.yml
+
+
+echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
+echo $INDEXER_IP wazuh.indexer >> /etc/hosts
+echo $MANAGER_IP wazuh.manager >> /etc/hosts

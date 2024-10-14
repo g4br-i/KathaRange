@@ -1,0 +1,11 @@
+
+    <!-- Snort 3 alert_fast log decoder -->
+    <decoder name="snort">
+	<type>ids</type>
+        <prematch>[**]</prematch>
+	<program_name>snort</program_name>
+	<regex>^(\d{2}/\d{2}-\d{2}:\d{2}:\d{2}\.\d+)\s*[[a-z]+]?\s*[**]\s+[(\d+):(\d+):(\d+)]\s*"([^"]+)"\s*\s+[**]\s+[Classification:\s*([^]]+)]\s*[Priority:\s*(\d+)]\s*{[A-Z]+}\s*([\d\.]+)(\S+)\p*\d* -> (\S+)$</regex>
+        <order>time, flag, sid, gen_id, rev, msg, classification, priority, protocol, srcip, srcport, dstip, dstport</order>
+    
+   </decoder>
+

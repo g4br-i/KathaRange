@@ -16,7 +16,8 @@ DEPS_DIR="$WORKING_DIR/deps/"
 WAZUH_DIR="$DEPS_DIR/wazuh-docker"
 CALDERA_DIR="$DEPS_DIR/caldera"
 DOCKERFILES_DIR="$WORKING_DIR/Dockerfiles"
-LAB_DIR="$WORKING_DIR/kathara_lab_caldera/"
+LAB_DIR="$WORKING_DIR/lab/"
+LAB_LIGHT_DIR="$WORKING_DIR/lab_light/"
 WAZUH_AGENT_FILE="wazuh-agent_4.9.0-1_amd64.deb"
 WAZUH_TAG="v4.9.0-katha"
 
@@ -114,6 +115,7 @@ if [[ -f "$LAB_DIR/shared/$WAZUH_AGENT_FILE" ]]; then
     else
         echo -e "${BLUE}Downloading agent .deb file for Wazuh...${RESET}"
         wget --directory-prefix="$LAB_DIR/shared/" "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/$WAZUH_AGENT_FILE"
+        cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/" 
     fi     
 fi
 
