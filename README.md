@@ -1,6 +1,11 @@
 # KathaRange Cyber Lab
 KathaRange is a cybersecurity training platform built on the [Kathará framework](https://github.com/KatharaFramework). It creates a dynamic, containerized network of machines featuring leading open-source technologies like Snort3 IDS, Wazuh SIEM, MITRE's Caldera, and a Kali machine equipped with Atomic Red Team tools.
 
+### Requirements:
+- Linux host machine
+
+⚠️ The kathara' installer is currently available only for linux, as it is a custom version that will become part of kathara' as soon as the main code is updated.
+  
 ### Getting Started
 Launch the script in the root of the project.[^1]
 
@@ -9,10 +14,10 @@ the script will automatically clone all dependencies and build all images needed
 
 Once the process is completed, navigate to the folder:
 ```
-cd kathara_lab_caldera
+cd lab
 kathara lstart
 ```
-Then wait for all terminals to completely load the startup scripts, then you will able to access all servicies.
+⚠️ Wait for all terminals to completely load the startup scripts, then you will able to access all servicies.
 
 Caldera will be listening on:
 http://localhost:8888/
