@@ -4,7 +4,7 @@ KathaRange is a cybersecurity training platform built on the [Kathará framework
 ### Requirements:
 - Linux host machine
 
-The kathara' installer is currently available only for linux, as it is a custom version that will become part of kathara' as soon as the main code is updated.
+⚠️ The kathara' installer is currently available only for linux, as it is a custom version that will become part of kathara' as soon as the main code is updated.
   
 ### Getting Started
 Launch the script in the root of the project.[^1]
@@ -17,7 +17,7 @@ Once the process is completed, navigate to the folder:
 cd lab
 kathara lstart
 ```
-Then wait for all terminals to completely load the startup scripts, then you will able to access all servicies.
+⚠️ Wait for all terminals to completely load the startup scripts, then you will able to access all servicies.
 
 Caldera will be listening on:
 http://localhost:8888/
