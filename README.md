@@ -3,6 +3,7 @@ KathaRange is a cybersecurity training platform built on the [Kathará framework
 
 ### Requirements:
 - Linux host machine
+- Docker
 
 ⚠️ The kathara' installer is currently available only for linux, as it is a custom version that will become part of kathara' as soon as the main code is updated.
   
