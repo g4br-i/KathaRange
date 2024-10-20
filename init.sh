@@ -23,7 +23,7 @@ WAZUH_TAG="v4.9.0-katha"
 SNORT3_RULES_TAR_FILE="snort3-community-rules.tar.gz"
 SNORT3_RULES_FILE="snort3-community.rules"
 
-
+#region functions
 image_exists() {
     local image_name=$1
     if docker images -q "$image_name" > /dev/null 2>&1; then
@@ -35,9 +35,9 @@ image_exists() {
 
 prompt_user() {
     local action=$1
-    echo -e ${YELLOW}
+    echo -e "${YELLOW}"
     read -p "$action (y/n): " choice
-    echo -e ${RESET}
+    echo -e "${RESET}"
     case "$choice" in
         y|Y ) return 0 ;;  # User wants to continue with action
         n|N ) return 1 ;;  # User does not want to continue
@@ -51,15 +51,56 @@ check_kathara() {
         if ! prompt_user "Kathara is not installed. Do you want to install it?"; then
             echo -e "${RED}Kathara is required to run this script. Exiting.${RESET}"
             exit 1
-         else
-             sudo dpkg -i kathara_3.7.7-1jammy_amd64.deb
-             echo -e "${GREEN}Kathara installation completed.${RESET}"
-             return 0
-         fi
+        else
+            sudo dpkg -i kathara_3.7.7-1jammy_amd64.deb
+            echo -e "${GREEN}Kathara installation completed.${RESET}"
+        fi
     else
         echo -e "${GREEN}Kathara is already installed. Proceeding...${RESET}"
     fi
 }
+
+check_dependency() {
+    local dep_name=$1
+    if ! command -v "$dep_name" &> /dev/null; then
+        echo -e "${RED}$dep_name is not installed. Please install it before running this script.${RESET}"
+        exit 1
+    fi
+}
+
+
+check_and_download_file() {
+    local file_path=$1
+    local download_url=$2
+    local target_dir=$3
+
+    if [[ -f "$file_path" ]]; then
+        if ! prompt_user "The file $(basename "$file_path") already exists. Do you want to download it again?"; then
+            echo -e "${GREEN}Using existing file: $(basename "$file_path").${RESET}"
+            return
+        fi
+    fi
+
+    echo -e "${BLUE}Downloading $(basename "$file_path")...${RESET}"
+    wget --directory-prefix="$target_dir" "$download_url"
+}
+
+docker_build_image(){
+    service=$1
+    docker-compose -f build-images.yml build --no-cache "$service"
+        
+    if [ $? -eq 0 ]; then
+        echo -e "${GREEN}Successfully built: $service${RESET}"
+    else
+        echo -e "${RED}Failed to build: $service${RESET}" >&2
+    fi
+
+}
+
+#endregion 
+
+check_dependency "docker"
+check_dependency "git"
 
 # Welcome message in ASCII Art (colored)
 echo -e "${MAGENTA}"
@@ -103,23 +144,17 @@ if image_exists "wazuh/wazuh-indexer:4.9.0" && image_exists "wazuh/wazuh-manager
     if ! prompt_user "Wazuh images already exist. Do you want to rebuild them?"; then
         echo -e "${GREEN}Using existing Wazuh images.${RESET}"
     else
-        /bin/bash build-docker-images/build-images.sh -v 4.9.0
+        /bin/bash build-docker-images/build-images.sh -v 4.9.0 || exit 1
     fi
 else
-    /bin/bash build-docker-images/build-images.sh -v 4.9.0
+    /bin/bash build-docker-images/build-images.sh -v 4.9.0 || exit 1
 fi
 
 echo ''
 
-if [[ -f "$LAB_DIR/shared/$WAZUH_AGENT_FILE" ]]; then
-    if ! prompt_user "The $WAZH_AGENT_FILE file already exists. Do you want to download it again?"; then
-        echo -e "${GREEN}Using existing .deb file.${RESET}"
-    else
-        echo -e "${BLUE}Downloading agent .deb file for Wazuh...${RESET}"
-        wget --directory-prefix="$LAB_DIR/shared/" "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/$WAZUH_AGENT_FILE"
-        cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/" 
-    fi     
-fi
+
+check_and_download_file "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/$WAZUH_AGENT_FILE" "$LAB_DIR/shared/"
+cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/"
 
 if [[ ! -d "$CALDERA_DIR" ]]; then
     echo -e "${BLUE}Cloning caldera project...${RESET}"
@@ -131,33 +166,51 @@ else
     echo -e "${GREEN}Caldera directory already exists: $CALDERA_DIR${RESET}"
 fi
 
+check_and_download_file "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE" "$DEPS_DIR"
+tar -xvf "$DEPS_DIR/$SNORT3_RULES_TAR_FILE" -C "$DEPS_DIR"
+cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/"
+cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/"
 
-echo -e "${BLUE}\n Downloading Snort3 rules... ${RESET}"
-if [[ -f "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" ]]; then
-    if ! prompt_user "The $SNORT3_RULES_FILE file already exists. Do you want to download it again?"; then
-        echo -e "${GREEN}Using existing rules file for snort3.${RESET}"
-    else
-        echo -e "${BLUE}Downloading ...${RESET}"
-        wget --directory-prefix="$DEPS_DIR" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE"
-        tar -xvf "$SNORT3_RULES_TAR_FILE"
-        cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/"
-        cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/" 
-    fi     
-fi
+rm "$DEPS_DIR/$SNORT3_RULES_TAR_FILE"
 
 echo -e "${BLUE}Building images for the lab...${RESET}"
 services=( "snort" "tomcat" "caldera" "vuln_apache" "kali")
 
+if [[ -f "$DOCKERFILES_DIR/.env" ]]; then
+    set -a
+    source "$DOCKERFILES_DIR/.env"
+    set +a
+else
+    echo -e "${RED}.env file not found in $DOCKERFILES_DIR. Exiting.${RESET}"
+    exit 1
+fi
+
 cd "$DOCKERFILES_DIR"
 
-for service in "${services[@]}"; do
-    echo -e "${YELLOW}Building service: $service...${RESET}"
-    docker-compose -f build-images.yml build --no-cache "$service"
-    
+for service in "${service[@]}"; do
+    service_var_name=$(echo "${service^^}_VERSION")
+    service_version=${!service_var_name}
 
-    if [ $? -eq 0 ]; then
-        echo -e "${GREEN}Successfully built: $service${RESET}"
-    else
-        echo -e "${RED}Failed to build: $service${RESET}" >&2
+    if ! image_exists "$service:$service_version"; then
+        echo -e "${YELLOW}Building service: $service:$service_version...${RESET}"
+        docker_build_image "$service"
+
+    else 
+        if ! prompt_user "Service image $service:$service_version already exist. Do you want to rebuild it"; then
+            echo -e "${GREEN}Using existing $service:$service_version image.${RESET}"
+            
+        else
+            echo -e "${YELLOW}Building service: $service:$service_version...${RESET}"
+            docker_build_image "$service"
+        fi
     fi
 done
+
+if [[ -f "$LAB_DIR/lab.conf.template" ]]; then
+    envsubst < "$LAB_DIR/lab.conf.template" > "$LAB_DIR/lab.conf"
+    envsubst < "$LAB_LIGHT_DIR/lab.conf.template" > "$LAB_LIGHT_DIR/lab.conf"
+    echo -e "${GREEN}Generated lab.conf with updated image versions.${RESET}"
+else
+    echo -e "${RED}lab.conf.template not found in $LAB_DIR. Exiting.${RESET}"
+    exit 1
+fi
