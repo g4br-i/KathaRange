@@ -26,7 +26,7 @@ SNORT3_RULES_FILE="snort3-community.rules"
 #region functions
 image_exists() {
     local image_name=$1
-    if docker images -q "$image_name" > /dev/null 2>&1; then
+    if [[ -n $(docker images -q "$image_name" 2>/dev/null) ]]; then
         return 0 
     else
         return 1
@@ -166,10 +166,13 @@ else
     echo -e "${GREEN}Caldera directory already exists: $CALDERA_DIR${RESET}"
 fi
 
+mkdir -p "$LAB_DIR/shared/snort3/rules"
+mkdir -p "$LAB_LIGHT_DIR/shared/snort3/rules"
+
 check_and_download_file "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE" "$DEPS_DIR"
 tar -xvf "$DEPS_DIR/$SNORT3_RULES_TAR_FILE" -C "$DEPS_DIR"
-cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/"
-cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/"
+cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/rules"
+cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/rules"
 
 rm "$DEPS_DIR/$SNORT3_RULES_TAR_FILE"
 
@@ -187,7 +190,7 @@ fi
 
 cd "$DOCKERFILES_DIR"
 
-for service in "${service[@]}"; do
+for service in "${services[@]}"; do
     service_var_name=$(echo "${service^^}_VERSION")
     service_version=${!service_var_name}
 

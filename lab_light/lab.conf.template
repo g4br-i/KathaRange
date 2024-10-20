@@ -70,7 +70,7 @@ pc1[image]=kathara/base
 
 # Kali Machine
 kali[0]=B1
-kali[image]="kali_art:$KALI_VERSION"
+kali[image]="kali:$KALI_VERSION"
 
 # Caldera Server
 caldera[0]=B1

@@ -1,7 +1,7 @@
 #! bin/bash
 
 
-cp /shared/snort3/snort3-community.rules /home/snorty/snort3/etc/rules/snort3-community.rules
+#cp /shared/snort3/snort3-community.rules /home/snorty/snort3/etc/rules/snort3-community.rules
 cp /shared/snort3/nfq_inline.lua /home/snorty/snort3/etc/snort/
 cp /shared/snort3/afpacket_inline.lua /home/snorty/snort3/etc/snort/
 

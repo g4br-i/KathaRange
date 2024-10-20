@@ -1,7 +1,7 @@
 #! bin/bash
 
 
-cp /shared/snort3/snort3-community.rules /home/snorty/snort3/etc/rules/snort3-community.rules
+#cp /shared/snort3/snort3-community.rules /home/snorty/snort3/etc/rules/snort3-community.rules
 cp /shared/snort3/nfq_inline.lua /home/snorty/snort3/etc/snort/
 cp /shared/snort3/afpacket_inline.lua /home/snorty/snort3/etc/snort/
 
@@ -15,7 +15,7 @@ iptables -I INPUT -j NFQUEUE --queue-num 1
 #iptables -I OUTPUT -j NFQUEUE --queue-num 1
 iptables -I FORWARD -j NFQUEUE --queue-num 1
 
-syslog-ng &
+syslog-ng --no-caps &
 WAZUH_MANAGER='192.168.2.23' WAZUH_AGENT_NAME=$HOSTNAME dpkg -i /shared/wazuh-agent_4.9.0-1_amd64.deb
 cp /shared/snort3/ossec.conf /var/ossec/etc/ossec.conf
 service wazuh-agent start
