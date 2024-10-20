@@ -11,15 +11,17 @@ CYAN='\033[36m'
 RESET='\033[0m'
 
 # dirs
-WORKING_DIR="$(pwd)"
-DEPS_DIR="$WORKING_DIR/deps/"
+ROOT_DIR="$(pwd)"
+DEPS_DIR="$ROOT_DIR/deps/"
 WAZUH_DIR="$DEPS_DIR/wazuh-docker"
 CALDERA_DIR="$DEPS_DIR/caldera"
-DOCKERFILES_DIR="$WORKING_DIR/Dockerfiles"
-LAB_DIR="$WORKING_DIR/lab/"
-LAB_LIGHT_DIR="$WORKING_DIR/lab_light/"
+DOCKERFILES_DIR="$ROOT_DIR/Dockerfiles"
+LAB_DIR="$ROOT_DIR/lab/"
+LAB_LIGHT_DIR="$ROOT_DIR/lab_light/"
 WAZUH_AGENT_FILE="wazuh-agent_4.9.0-1_amd64.deb"
 WAZUH_TAG="v4.9.0-katha"
+SNORT3_RULES_TAR_FILE="snort3-community-rules.tar.gz"
+SNORT3_RULES_FILE="snort3-community.rules"
 
 
 image_exists() {
@@ -127,6 +129,20 @@ if [[ ! -d "$CALDERA_DIR" ]]; then
     fi
 else
     echo -e "${GREEN}Caldera directory already exists: $CALDERA_DIR${RESET}"
+fi
+
+
+echo -e "${BLUE}\n Downloading Snort3 rules... ${RESET}"
+if [[ -f "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" ]]; then
+    if ! prompt_user "The $SNORT3_RULES_FILE file already exists. Do you want to download it again?"; then
+        echo -e "${GREEN}Using existing rules file for snort3.${RESET}"
+    else
+        echo -e "${BLUE}Downloading ...${RESET}"
+        wget --directory-prefix="$DEPS_DIR" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE"
+        tar -xvf "$SNORT3_RULES_TAR_FILE"
+        cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/"
+        cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/" 
+    fi     
 fi
 
 echo -e "${BLUE}Building images for the lab...${RESET}"
