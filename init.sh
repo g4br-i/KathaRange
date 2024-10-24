@@ -101,6 +101,16 @@ docker_build_image(){
 
 check_dependency "docker"
 check_dependency "git"
+if ! command -v docker-compose &> /dev/null; then
+   if ! prompt_user "docker-compose is needed to build the images proceed to add it to usr/local/bin?"; then
+        echo -e "${RED}Cannot proceed without docker-compose.${RESET}"
+        exit 1
+    else
+        echo 'docker compose --compatibility "$@"'|sudo tee /usr/local/bin/docker-compose
+        sudo chmod +x /usr/local/bin/docker-compose
+    fi
+
+fi
 
 # Welcome message in ASCII Art (colored)
 echo -e "${MAGENTA}"
@@ -144,6 +154,8 @@ if image_exists "wazuh/wazuh-indexer:4.9.0" && image_exists "wazuh/wazuh-manager
     if ! prompt_user "Wazuh images already exist. Do you want to rebuild them?"; then
         echo -e "${GREEN}Using existing Wazuh images.${RESET}"
     else
+        echo -e "${RED}To properly work the wazuh containers need  vm.max_map_count=262144${RESET}"
+        sudo sysctl -w vm.max_map_count=262144
         /bin/bash build-docker-images/build-images.sh -v 4.9.0 || exit 1
     fi
 else
@@ -164,6 +176,15 @@ if [[ ! -d "$CALDERA_DIR" ]]; then
     fi
 else
     echo -e "${GREEN}Caldera directory already exists: $CALDERA_DIR${RESET}"
+     if ! prompt_user "Do you want to remove it and clone it again?"; then
+        echo -e "${GREEN}Skipping...${RESET}"
+    else
+        rm -rf "$CALDERA_DIR"
+        if ! git clone https://github.com/g4br-i/caldera.git --recursive "$CALDERA_DIR"; then
+            echo -e "${RED}Failed to clone caldera repository.${RESET}" >&2
+            exit 1
+        fi
+    fi
 fi
 
 mkdir -p "$LAB_DIR/shared/snort3/rules"
