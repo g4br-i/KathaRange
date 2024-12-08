@@ -1,0 +1,36 @@
+- tactic: reconnaissance
+  technique_name: Conduct active scanning
+  technique_id: T1595
+  name: Conduct active scanning for apache version
+  description: Scans the remote server for web server version
+  executors:
+  - name: sh
+    platform: darwin
+    command: 'nmap -sV #{target.ip}'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers:
+    - module: plugins.stockpile.parsers..regex
+      parserconfigs:
+      - source: informations
+        edge: ''
+        target: ''
+        custom_parser_vals: {}
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: true
+  buckets:
+  - reconnaissance
+  additional_info: {}
+  access: {}
+  singleton: true
+  plugin: ''
+  delete_payload: true
+  id: 902b8021-e764-40fd-b3ec-877187124ea6
