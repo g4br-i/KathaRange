@@ -1,0 +1,32 @@
+id: 43310984-a844-4d62-bb6d-0fbbe545e70b
+name: operation_facts
+facts:
+- unique: target.ip192.168.2.10
+  trait: target.ip
+  name: target.ip
+  value: 192.168.2.10
+  created: '2024-12-16T17:46:54Z'
+  score: 0
+  source: 43310984-a844-4d62-bb6d-0fbbe545e70b
+  origin_type: IMPORTED
+  links: []
+  relationships: []
+  limit_count: -1
+  collected_by: []
+  technique_id: null
+- unique: target.serviceApache
+  trait: target.service
+  name: target.service
+  value: Apache
+  created: '2024-12-16T17:46:54Z'
+  score: 0
+  source: 43310984-a844-4d62-bb6d-0fbbe545e70b
+  origin_type: IMPORTED
+  links: []
+  relationships: []
+  limit_count: -1
+  collected_by: []
+  technique_id: null
+rules: []
+relationships: []
+plugin: ''
