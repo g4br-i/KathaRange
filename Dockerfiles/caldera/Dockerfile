@@ -1,4 +1,4 @@
-FROM ubuntu:23.04
+FROM ubuntu:latest
 
 SHELL ["/bin/bash", "-c"]
 
