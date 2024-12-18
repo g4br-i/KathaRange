@@ -166,7 +166,7 @@ echo ''
 
 
 check_and_download_file "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/$WAZUH_AGENT_FILE" "$LAB_DIR/shared/"
-cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/"
+#cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/"
 
 if [[ ! -d "$CALDERA_DIR" ]]; then
     echo -e "${BLUE}Cloning caldera project...${RESET}"
@@ -188,14 +188,16 @@ else
 fi
 
 mkdir -p "$LAB_DIR/shared/snort3/rules"
-mkdir -p "$LAB_LIGHT_DIR/shared/snort3/rules"
+#mkdir -p "$LAB_LIGHT_DIR/shared/snort3/rules"
 
 check_and_download_file "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE" "$DEPS_DIR"
 tar -xvf "$DEPS_DIR/$SNORT3_RULES_TAR_FILE" -C "$DEPS_DIR"
 cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/rules"
-cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/rules"
+#cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/rules"
 
 rm "$DEPS_DIR/$SNORT3_RULES_TAR_FILE"
+
+cp -r "$LAB_DIR/shared/" "$LAB_LIGHT_DIR/"
 
 echo -e "${BLUE}Building images for the lab...${RESET}"
 services=( "snort" "tomcat" "caldera" "vuln_apache" "kali")
