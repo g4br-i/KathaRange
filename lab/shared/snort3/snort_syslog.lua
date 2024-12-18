@@ -188,8 +188,15 @@ ips =
     -- use include for rules files; be sure to set your path
     -- note that rules files can include other rules files
     -- (see also related path vars at the top of snort_defaults.lua)
-    include = '/home/snorty/snort3/etc/rules/myrule.rules',
-    include = '/shared/snort3/rules/snort3-community.rules',
+    -- 
+
+    rules = [[ 
+
+            include /shared/snort3/rules/*.rules
+
+    ]],
+    --include = '/home/snorty/snort3/etc/rules/myrule.rules',
+
     variables = default_variables
 }
 
