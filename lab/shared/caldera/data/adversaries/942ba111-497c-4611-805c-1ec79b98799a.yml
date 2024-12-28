@@ -1,0 +1,8 @@
+name: scanner
+description: test scanner
+atomic_ordering:
+- 4dda8f23-7dc9-4786-8f7b-9dac8b4e5a1c
+- 902b8021-e764-40fd-b3ec-877187124ea6
+- 094fd657-476c-469e-85c7-026be4d095b6
+adversary_id: 942ba111-497c-4611-805c-1ec79b98799a
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

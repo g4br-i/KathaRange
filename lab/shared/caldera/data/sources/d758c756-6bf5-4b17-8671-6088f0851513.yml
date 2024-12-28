@@ -1,0 +1,22 @@
+id: d758c756-6bf5-4b17-8671-6088f0851513
+name: operation_facts (copy)
+facts:
+- unique: target.serviceApache
+  trait: target.service
+  name: target.service
+  value: Apache
+  created: '2024-12-28T16:06:44Z'
+  score: 36
+  source: d758c756-6bf5-4b17-8671-6088f0851513
+  origin_type: IMPORTED
+  links: []
+  relationships: []
+  limit_count: -1
+  collected_by: []
+  technique_id: null
+- trait: target.subnet
+  value: 192.168.2.0/24
+  score: 0
+rules: []
+relationships: []
+plugin: ''
