@@ -9,6 +9,7 @@ echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
 echo $INDEXER_IP wazuh.indexer >> /etc/hosts
 echo $MANAGER_IP wazuh.manager >> /etc/hosts
 
-cp /shared/snort3_syslog_decoder.xml /var/ossec/etc/decoders/
+cp /shared/wazuh_manager/etc/decoders/* /var/ossec/etc/decoders/
+cp /shared/wazuh_manager/etc/rules/* /var/ossec/etc/rules/
 ./var/ossec/active-response/bin/restart.sh manager
 

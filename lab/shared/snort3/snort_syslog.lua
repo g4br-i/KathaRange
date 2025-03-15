@@ -192,7 +192,8 @@ ips =
 
     rules = [[ 
 
-            include /shared/snort3/rules/*.rules
+                include /shared/snort3/rules/CVE-2021-41773_42013.rules
+                include /shared/snort3/rules/snort3-community.rules
 
     ]],
     --include = '/home/snorty/snort3/etc/rules/myrule.rules',
