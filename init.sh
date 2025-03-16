@@ -52,8 +52,12 @@ check_kathara() {
             echo -e "${RED}Kathara is required to run this script. Exiting.${RESET}"
             exit 1
         else
-            sudo dpkg -i kathara_3.7.7-1jammy_amd64.deb
-            echo -e "${GREEN}Kathara installation completed.${RESET}"
+	    echo -e "${YELLOW}Installing...${RESET}"
+	    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 21805A48E6CBBA6B991ABE76646193862B759810
+            sudo add-apt-repository ppa:katharaframework/kathara
+	    sudo apt update
+	    sudo apt install kathara
+	    echo -e "${GREEN}Kathara installation completed.${RESET}"
         fi
     else
         echo -e "${GREEN}Kathara is already installed. Proceeding...${RESET}"
