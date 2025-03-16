@@ -52,8 +52,12 @@ check_kathara() {
             echo -e "${RED}Kathara is required to run this script. Exiting.${RESET}"
             exit 1
         else
-            sudo dpkg -i kathara_3.7.7-1jammy_amd64.deb
-            echo -e "${GREEN}Kathara installation completed.${RESET}"
+	    echo -e "${YELLOW}Installing...${RESET}"
+	    sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 21805A48E6CBBA6B991ABE76646193862B759810
+            sudo add-apt-repository ppa:katharaframework/kathara
+	    sudo apt update
+	    sudo apt install kathara
+	    echo -e "${GREEN}Kathara installation completed.${RESET}"
         fi
     else
         echo -e "${GREEN}Kathara is already installed. Proceeding...${RESET}"
@@ -166,7 +170,7 @@ echo ''
 
 
 check_and_download_file "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "https://packages.wazuh.com/4.x/apt/pool/main/w/wazuh-agent/$WAZUH_AGENT_FILE" "$LAB_DIR/shared/"
-cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/"
+#cp "$LAB_DIR/shared/$WAZUH_AGENT_FILE" "$LAB_LIGHT_DIR/shared/"
 
 if [[ ! -d "$CALDERA_DIR" ]]; then
     echo -e "${BLUE}Cloning caldera project...${RESET}"
@@ -188,14 +192,16 @@ else
 fi
 
 mkdir -p "$LAB_DIR/shared/snort3/rules"
-mkdir -p "$LAB_LIGHT_DIR/shared/snort3/rules"
+#mkdir -p "$LAB_LIGHT_DIR/shared/snort3/rules"
 
 check_and_download_file "$LAB_DIR/shared/snort3/$SNORT3_RULES_FILE" "https://www.snort.org/downloads/community/$SNORT3_RULES_TAR_FILE" "$DEPS_DIR"
 tar -xvf "$DEPS_DIR/$SNORT3_RULES_TAR_FILE" -C "$DEPS_DIR"
 cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_DIR/shared/snort3/rules"
-cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/rules"
+#cp "$DEPS_DIR/snort3-community-rules/$SNORT3_RULES_FILE" "$LAB_LIGHT_DIR/shared/snort3/rules"
 
 rm "$DEPS_DIR/$SNORT3_RULES_TAR_FILE"
+
+cp -r "$LAB_DIR/shared/" "$LAB_LIGHT_DIR/"
 
 echo -e "${BLUE}Building images for the lab...${RESET}"
 services=( "snort" "tomcat" "caldera" "vuln_apache" "kali")

@@ -4,7 +4,7 @@ FROM kathara/quagga:latest
 # Install dependencies and Snort
 WORKDIR /root
 
-RUN apt-get update &&     apt-get install -y     autoconf net-tools automake bison build-essential cmake curl flex wget iproute2 git libdumbnet-dev libhwloc-dev libhyperscan-dev libluajit-5.1-dev liblzma-dev libpcap-dev libpcre3-dev libssl-dev man-db pkg-config vim zlib1g-dev libnet1-dev libnetfilter-queue-dev libmnl-dev python3 pip iptables libnghttp2-dev libntirpc-dev nano zip syslog-ng &&     apt-get clean &&     git clone "https://github.com/snort3/libdaq.git" &&     cd libdaq &&     ./bootstrap &&     ./configure && make &&    make install &&     ldconfig &&     cd ../ # &&     rm -rf libdaq 
+RUN apt-get update &&     apt-get install -y     autoconf net-tools automake bison build-essential cmake curl flex wget iproute2 git libdumbnet-dev libhwloc-dev libhyperscan-dev libluajit-5.1-dev liblzma-dev libpcap-dev libpcre2-dev libssl-dev man-db pkg-config vim zlib1g-dev libnet1-dev libnetfilter-queue-dev libmnl-dev python3 pip iptables libnghttp2-dev libntirpc-dev nano zip syslog-ng &&     apt-get clean &&     git clone "https://github.com/snort3/libdaq.git" &&     cd libdaq &&     ./bootstrap &&     ./configure && make &&    make install &&     ldconfig &&     cd ../ # &&     rm -rf libdaq 
 # Download community rules
 
 WORKDIR /home/snorty

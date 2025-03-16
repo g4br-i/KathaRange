@@ -1,0 +1,45 @@
+<!-- snort 3 decoders -->
+<!-- snort3_syslog developed by github user g4br-i -->
+<!-- snort3_syslog_icmp and snort3_syslog_ipv6 are a slightly modified version of https://github.com/wazuh/wazuh/issues/21443 developed by github user RaveNN-0 -->
+<decoder name="snort">
+  <program_name>^snort</program_name>
+</decoder>
+
+<!-- additional decoder to parse events that don't have the interface in the log-->
+<decoder name="snort3_syslog">
+    <parent>snort</parent>
+    <type>ids</type>
+    <prematch>\d+.\d+.\d+.\d+:\d+ </prematch>
+    <regex>[(\d+:\d+:\d+)] \p(\.+)\p [Classification: (\.+)] [Priority: (\d+)] {(\.+)} </regex>
+    <order>id,snort.message,snort.classification,snort.priority,protocol</order>
+    <fts>name,location</fts>
+</decoder>
+
+<decoder name="snort3_syslog">
+    <parent>snort</parent>
+    <type>ids</type>
+    <!--<regex type="pcre2">(\S+?)(?::\d+)?\s*->\s*(\S+?)(?::\d+)?$</regex>
+    <regex>(\S+):?(\d+)</regex> -->
+    <regex type="pcre2">([\d+\.?]+)(?::?)(\d+)? -> ([\d+\.?]+)(?::?)(\d+)?</regex>
+    <order>srcip,scrport,dstip,dstport</order>
+</decoder>
+
+
+<decoder name="snort3_syslog_icmp">
+    <parent>snort</parent>
+    <type>ids</type>
+    <prematch>ICMP</prematch>
+    <regex>[(\d+:\d+:\d+)] \p(\.+)\p [Classification: (\.+)] [Priority: (\d+)] {(\S+)} (\S+) -> (\S+)</regex>
+    <order>id,snort.message,snort.classification,snort.priority,protocol,srcip,dstip</order>
+    <fts>name,location</fts>
+</decoder>
+
+<decoder name="snort3_syslog_ipv6">
+    <parent>snort</parent>
+    <type>ids</type>
+    <prematch>^[\d+:\d+:\d+] </prematch>
+    <regex type="pcre2">.(\d+:\d+:\d+). .(\D+). .Classification: (\D+). .Priority: (\d+). .(\S+). (\S+):(\d+) -> (\S+):(\d+)</regex>
+    <order>id,snort.message,snort.classification,snort.priority,protocol,srcip,srcport, dstip, dstport</order>
+    <fts>name,location</fts>
+</decoder>
+

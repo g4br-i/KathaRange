@@ -1,0 +1,7 @@
+name: Remote adversary
+description: explots vulnerability on apache server
+atomic_ordering:
+- 902b8021-e764-40fd-b3ec-877187124ea6
+- 094fd657-476c-469e-85c7-026be4d095b6
+adversary_id: 258394b6-9f39-4ea6-b9bf-a6deff58b489
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

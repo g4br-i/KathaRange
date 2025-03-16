@@ -41,8 +41,8 @@ r5[image]="snort:$SNORT_VERSION"
 # ===================================
 
 # Apache Server apache2_1
-#apache2_1[0]=A1
-#apache2_1[image]=kathara/base
+apache2_1[0]=A1
+apache2_1[image]=kathara/base
 
 # Apache Server apache2_2 (Vulnerable)
 apache2_2[0]=C1
@@ -53,16 +53,16 @@ apache2_2[image]="vuln_apache:$VULN_APACHE_VERSION"
 #tomcat2_1[image]="tomcat:$TOMCAT_VERSION"
 
 # Tomcat Server tomcat2_2
-tomcat2_2[0]=C1
-tomcat2_2[image]="tomcat:$TOMCAT_VERSION"
+#tomcat2_2[0]=C1
+#tomcat2_2[image]="tomcat:$TOMCAT_VERSION"
 
 # ===================================
 # Workstation Configurations
 # ===================================
 
 # PC pc1
-pc1[0]=B1
-pc1[image]=kathara/base
+#pc1[0]=B1
+#pc1[image]=kathara/base
 
 # Script Host script_2_1
 #script_2_1[0]=B1

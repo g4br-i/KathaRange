@@ -4,8 +4,6 @@ KathaRange is a cybersecurity training platform built on the [Kathará framework
 ### Requirements:
 - Linux host machine
 - Docker
-
-⚠️ The kathara' installer is currently available only for linux, as it is a custom version that will become part of kathara' as soon as the main code is updated.
   
 ### Getting Started
 Launch the script in the root of the project.[^1]
@@ -41,4 +39,3 @@ usr/psw
 
     Admin/SecretPassword
 
-[^1]: Currently it needs my custom version of Kathará (3.7.7), which allows the lab.conf file to change the ulimit values of the containers. When it will be available in the latest release of kathara i will remove my .deb file. The script will ask user to install it 
