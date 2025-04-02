@@ -1,0 +1,8 @@
+name: FTP attacker
+description: '---'
+atomic_ordering:
+- 3c3e9aaf-cc78-418b-84b6-c63cdd58fd9b
+- bab3b55a-4bdc-4d4d-9a92-77c7d1b2624d
+- a1ab2a64-28d0-4b56-b7ce-4069c251275c
+adversary_id: 1f3cdf04-0eb5-49d2-a227-af0bfe06b109
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

@@ -1,0 +1,35 @@
+- tactic: multiple
+  technique_name: Indirect Command Execution
+  technique_id: TB007
+  name: Command Injection via Email Server
+  description: This ability exploits vulnerabilities in an email web server running
+    at the specified ip address, that returns explicit error messages regarding informations
+    about how the user inputs are parsed. This vulnerability is exploited injecting
+    a reverse shell listening on TCP port 4444
+  executors:
+  - name: sh
+    platform: linux
+    command: g++ -std=c++11 command_inj.cpp -o /tmp/command_inj; /tmp/command_inj
+      192.168.3.20; exit 0
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - command_inj.cpp
+    uploads: []
+    timeout: 180
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - multiple
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 07a81ef9-f2e4-4d1f-8a84-4be36a366962

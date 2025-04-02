@@ -1,6 +1,24 @@
 ip address add 192.168.0.10/24 dev eth0
 ip route add 0.0.0.0/0 via 192.168.0.1 dev eth0
 
+#/bin/bash /shared/init_caldera_r_sandcat.sh
 echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
 
-/bin/bash /shared/init_caldera_r_sandcat.sh
+#cat /shared/kali/extra_ossec.conf >> /var/ossec/etc/ossec.conf
+
+#enable the following instructions to install nodejs and to have a background process that emulates a web browser
+#mkdir /browser
+#cd browser
+#apt-get update -y
+#apt-get install -y nodejs
+#apt-get update -y
+#apt-get install -y npm
+#npm install axios
+#npm install jsdom
+#npm install tough-cookie
+#npm install axios-cookiejar-support
+#cp /shared/scripts/browser.js browser.js
+#/bin/bash /shared/scripts/browser.sh &
+
+/bin/bash /shared/scripts/operations.sh
+/bin/bash /shared/scripts/allowed_traffic.sh &

@@ -4,3 +4,4 @@ echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
 
 iptables -t nat -A POSTROUTING -o eth1 -j MASQUERADE
 /etc/init.d/zebra start
+/bin/bash /shared/scripts/operations.sh

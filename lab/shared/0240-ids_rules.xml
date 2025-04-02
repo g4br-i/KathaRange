@@ -20,7 +20,7 @@
   <rule id="20101" level="6" overwrite="yes">
     <category>ids</category>
     <check_if_ignored>srcip, id</check_if_ignored>
-    <description>IDS event: $(msg)</description>
+    <description>IDS event: Snort Alert: $4. Classification: $5. Priority: $6. Protocol: $7. Source: $8:$9. Destination: $10:$11.</description>
   </rule>
 
   <!-- This rule ignores some Ids that cause too much

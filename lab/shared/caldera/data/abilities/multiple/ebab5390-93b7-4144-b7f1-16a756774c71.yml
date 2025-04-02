@@ -1,0 +1,34 @@
+- tactic: multiple
+  technique_name: ssh exploitation
+  technique_id: TB002
+  name: Worm
+  description: Deploys a worm in the network, that propagates using ssh security flaws
+  executors:
+  - name: sh
+    platform: linux
+    command: g++ worm.cpp -o /tmp/worm; mv spread_w.exp /tmp/spread_w.exp; echo ""
+      > /tmp/visited.txt; chmod +x /tmp/worm; chmod +x spread_w.exp; /tmp/worm
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - worm.hpp
+    - worm.cpp
+    - spread_w.exp
+    uploads: []
+    timeout: 600
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - multiple
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: ebab5390-93b7-4144-b7f1-16a756774c71

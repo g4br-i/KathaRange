@@ -1,0 +1,6 @@
+name: Custom Worm
+description: '---'
+atomic_ordering:
+- ebab5390-93b7-4144-b7f1-16a756774c71
+adversary_id: 7024301b-b006-4be1-9175-68beec076dce
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

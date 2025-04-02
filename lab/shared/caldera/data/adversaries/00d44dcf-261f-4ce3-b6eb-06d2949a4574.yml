@@ -1,0 +1,7 @@
+name: Command Injector
+description: '---'
+atomic_ordering:
+- 07a81ef9-f2e4-4d1f-8a84-4be36a366962
+- 49f41799-1570-4782-9256-9bfdcd5a9652
+adversary_id: 00d44dcf-261f-4ce3-b6eb-06d2949a4574
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

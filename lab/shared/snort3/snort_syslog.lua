@@ -262,8 +262,7 @@ rate_filter =
 --alert_fast = { }
 --alert_full = { }
 --alert_sfsocket = { }
-alert_syslog = {
- }
+alert_syslog = { }
 --unified2 = { }
 --alert_json = {    
 --file = true,
@@ -278,12 +277,11 @@ alert_syslog = {
 -- you can enable with defaults from the command line with -L <log_type>
 --log_codecs = { }
 --log_hext = { }
---log_pcap = { }
+log_pcap = { 0 }
 
 -- additional logs
 packet_capture = { }
 --file_log = { }
-
 ---------------------------------------------------------------------------
 -- 8. configure tweaks
 ---------------------------------------------------------------------------

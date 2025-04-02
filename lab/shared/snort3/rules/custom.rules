@@ -1,0 +1,61 @@
+alert http any any -> any 80 (
+    msg:"Possible HTTP Flood Attack Detected";
+    flow:to_server,established;
+    content:"GET "; depth:4;
+    detection_filter:track by_src, count 50, seconds 5;
+    sid:1000101; rev:1;
+)
+alert tcp any any -> any 22 (
+    msg:"Possible SSH Worm Propagation";
+    flow:to_server,established;
+    detection_filter:track by_src, count 10, seconds 30;
+    sid:1000102; rev:1;
+)
+alert tcp any any -> any any (
+    msg:"Possible SYN Flood Attack";
+    flags:S; 
+    detection_filter:track by_src, count 100, seconds 10;
+    sid:1000103; rev:1;
+)
+alert ftp any any -> any 21 (
+    msg:"FTP Brute-force Attack";
+    flow:to_server,established;
+    content:"530 "; depth:4;
+    detection_filter:track by_src, count 5, seconds 50;
+    sid:1000104; rev:1;
+)
+alert ftp any any -> any 21 (
+    msg:"Suspicious File Upload via FTP (Possible Web Shell)";
+    flow:to_server,established;
+    content:"STOR "; depth:5;
+    pcre:"/STOR .*\.php/";
+    sid:1000105; rev:1;
+)
+alert http any any -> any 80 (
+    msg:"Possible XSS Attack (Script Injection in index.html)";
+    flow:to_server,established;
+    content:"POST "; http_method;
+    content:"index.html"; http_uri;
+    content:"<script>"; nocase;
+    sid:1000106; rev:1;
+)
+alert http any any -> any any (
+    msg:"Possible XSS Cookie Theft";
+    flow:to_server,established;
+    content:"document.cookie"; nocase;
+    content:"http://"; within:50;
+    sid:1000107; rev:1;
+)
+alert http any any -> any 5000 (
+    msg:"Possible Command Injection Detected";
+    flow:to_server,established;
+    content:"&"; within:10;
+    pcre:"/(;|&&|`|\\|%0A)/";
+    sid:1000108; rev:1;
+)
+alert tcp any any -> any 4444 (
+    msg:"Possible Bind Shell Detected";
+    flow:to_server,established;
+    sid:1000109; rev:1;
+)
+

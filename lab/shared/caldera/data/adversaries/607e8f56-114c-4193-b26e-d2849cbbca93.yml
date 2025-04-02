@@ -1,0 +1,6 @@
+name: Wazuh flooder
+description: '---'
+atomic_ordering:
+- 4c848ee8-f3e4-49cc-bbf1-92a647786a26
+adversary_id: 607e8f56-114c-4193-b26e-d2849cbbca93
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

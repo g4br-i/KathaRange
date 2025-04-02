@@ -13,3 +13,4 @@ cp /shared/wazuh_manager/etc/decoders/* /var/ossec/etc/decoders/
 cp /shared/wazuh_manager/etc/rules/* /var/ossec/etc/rules/
 ./var/ossec/active-response/bin/restart.sh manager
 
+/bin/bash /shared/scripts/export_snort_logs.sh &

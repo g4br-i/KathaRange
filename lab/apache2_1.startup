@@ -1,9 +1,36 @@
 ip address add 192.168.3.10/24 dev eth0
 ip route add 0.0.0.0/0 via 192.168.3.1 dev eth0
 
-/bin/bash /shared/init_caldera_br_sandcat.sh
+#/bin/bash /shared/init_caldera_br_sandcat.sh
 echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
 WAZUH_MANAGER='192.168.2.23' WAZUH_AGENT_NAME=$HOSTNAME dpkg -i /shared/wazuh-agent_4.9.0-1_amd64.deb
 systemctl start apache2
 systemctl enable wazuh-agent
 systemctl start wazuh-agent
+
+cp /shared/scripts/apache.conf /etc/apache2/sites-available/000-default.conf
+a2enmod headers
+systemctl restart apache2 
+
+echo "<html><body><h1>This is the main page!</h1></body></html>" > /var/www/html/index.html
+
+# Add two users with common usernames and passwords
+useradd -m -s /bin/bash catchthismail -G root
+echo "catchthismail:letmein" | chpasswd
+useradd -m -s /bin/bash qwerty
+echo "qwerty:12345" | chpasswd
+
+/bin/bash /shared/scripts/operations.sh
+
+# Install the FTP server
+/bin/bash /shared/scripts/vuln-ftp.sh
+
+# Install other useful stuff
+apt-get install -y php libapache2-mod-php
+apt-get install -y inotify-tools
+
+cp /shared/scripts/watch_changes_apache.sh /usr/local/bin/watch_changes_apache.sh
+chmod +x /usr/local/bin/watch_changes_apache.sh
+nohup /usr/local/bin/watch_changes_apache.sh &
+
+/bin/bash /shared/scripts/allowed_traffic.sh &

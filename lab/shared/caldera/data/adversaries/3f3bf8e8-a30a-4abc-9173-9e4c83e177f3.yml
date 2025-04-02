@@ -1,0 +1,7 @@
+name: XSS cookie stealer
+description: '---'
+atomic_ordering:
+- de3bd47f-a0f5-4332-97d7-159c267c2ccf
+- 98d472fe-9fbc-4730-944e-04271c8c1884
+adversary_id: 3f3bf8e8-a30a-4abc-9173-9e4c83e177f3
+objective: 495a9828-cab1-44dd-a0ca-66e58177d8cc

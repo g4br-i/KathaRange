@@ -41,16 +41,16 @@ r5[image]="snort:$SNORT_VERSION"
 # ===================================
 
 # Apache Server apache2_1
-apache2_1[0]=A1
-apache2_1[image]=kathara/base
+#apache2_1[0]=A1
+#apache2_1[image]=kathara/base
 
 # Apache Server apache2_2 (Vulnerable)
 apache2_2[0]=C1
 apache2_2[image]="vuln_apache:$VULN_APACHE_VERSION"
 
 # Tomcat Server tomcat2_1
-tomcat2_1[0]=A1
-tomcat2_1[image]="tomcat:$TOMCAT_VERSION"
+#tomcat2_1[0]=A1
+#tomcat2_1[image]="tomcat:$TOMCAT_VERSION"
 
 # Tomcat Server tomcat2_2
 tomcat2_2[0]=C1
@@ -65,8 +65,8 @@ pc1[0]=B1
 pc1[image]=kathara/base
 
 # Script Host script_2_1
-script_2_1[0]=B1
-script_2_1[image]=kathara/base
+#script_2_1[0]=B1
+#script_2_1[image]=kathara/base
 
 # Kali Machine
 kali[0]=B1

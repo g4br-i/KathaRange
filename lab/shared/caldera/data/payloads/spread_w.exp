@@ -1,0 +1,59 @@
+#!/usr/bin/expect
+
+set user [lindex $argv 0]
+set password [lindex $argv 1]
+set host [lindex $argv 2]
+set start_time [lindex $argv 3]
+set bin [lindex $argv 4]
+set visited [lindex $argv 5]
+set expect_script [lindex $argv 6]
+
+set timeout -1
+
+spawn scp -o StrictHostKeyChecking=no $bin $user@$host:$bin
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof
+
+spawn scp -o StrictHostKeyChecking=no $visited $user@$host:$visited
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof
+
+spawn scp -o StrictHostKeyChecking=no $expect_script $user@$host:$expect_script
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof
+
+spawn ssh -o StrictHostKeyChecking=no $user@$host "chmod +x $expect_script"
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof
+
+spawn ssh -o StrictHostKeyChecking=no $user@$host "chmod ugo+rw $visited"
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof
+
+spawn ssh -o StrictHostKeyChecking=no $user@$host "(nohup $bin $start_time > $bin.log 2>&1 &)"
+expect {
+    "password:" {
+        send "$password\r"
+    }
+}
+expect eof

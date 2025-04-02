@@ -6,9 +6,8 @@ ip route add 0.0.0.0 via 10.10.4.1 dev eth3
 
 systemctl start quagga
 
-#cp /shared/snort3/snort.lua /home/snorty/snort3/etc/snort/
+cp /shared/snort3/snort.lua /home/snorty/snort3/etc/snort/
 cp /shared/snort3/snort_syslog.lua /home/snorty/snort3/etc/snort/snort.lua
-
 
 /bin/bash /shared/snort3/startup.sh
 

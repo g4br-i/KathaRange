@@ -13,5 +13,5 @@
   <!--
 <order>id,msg</order>
 	-->
-
+  <field name="alert_msg">1</field>
 </decoder>
