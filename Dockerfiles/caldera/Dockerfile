@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:24.04
 
 SHELL ["/bin/bash", "-c"]
 
@@ -11,6 +11,8 @@ WORKDIR /usr/src/app
 # Make sure user cloned caldera recursively before installing anything.
 ADD . .
 RUN if [ -z "$(ls plugins/stockpile)" ]; then echo "stockpile plugin not downloaded - please ensure you recursively cloned the caldera git repository and try again."; exit 1; fi
+
+RUN find . -name "*.sh" -exec chmod +x {} \;
 
 RUN apt-get update && \
     apt-get -y install python3 python3-pip python3-venv git curl golang-go vim

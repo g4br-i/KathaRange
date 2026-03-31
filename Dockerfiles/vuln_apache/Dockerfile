@@ -3,5 +3,12 @@
 # It is recommended to use a more recent version for production environments.
 
 FROM httpd:2.4.49
-RUN apt update && apt install iproute2 lsb-release vim procps curl syslog-ng netcat curl wget -y
+
+# Puntiamo ai repository di archive.debian.org e ignoriamo la validità dei pacchetti
+RUN sed -i 's|http://deb.debian.org/debian|http://archive.debian.org/debian|g' /etc/apt/sources.list \
+    && sed -i 's|http://security.debian.org/debian-security|http://archive.debian.org/debian-security|g' /etc/apt/sources.list \
+    && apt-get update -o Acquire::Check-Valid-Until=false \
+    && apt-get install -y iproute2 lsb-release vim procps curl syslog-ng netcat wget
+
 COPY ./httpd.conf /usr/local/apache2/conf/
+

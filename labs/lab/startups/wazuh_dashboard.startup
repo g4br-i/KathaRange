@@ -1,0 +1,12 @@
+ip route add 192.168.0.0/16 via 192.168.2.1 dev eth0
+
+mkdir -p /usr/share/wazuh-dashboard/certs/
+chown wazuh-dashboard:wazuh-dashboard /certs/wazuh-dashboard.pem
+
+cp -p /wazuh_dashboard/certs/* /usr/share/wazuh-dashboard/certs/
+cp  /wazuh_dashboard/opensearch_dashboards.yml /usr/share/wazuh-dashboard/config/
+cp  /wazuh_dashboard/wazuh.yml /usr/share/wazuh-dashboard/config/
+
+echo 'nameserver 1.1.1.1' >> /etc/resolv.conf
+echo $INDEXER_IP wazuh.indexer >> /etc/hosts
+echo $MANAGER_IP wazuh.manager >> /etc/hosts

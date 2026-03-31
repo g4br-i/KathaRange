@@ -1,0 +1,24 @@
+plans:
+
+      my_plan:
+        plan_timeout: 120
+        need: #prerequisites
+          1:
+            command: echo 'test'
+            expected: test
+            machine: kali
+          2: 
+            action: testping
+            machine: kali
+            parameters:
+              $IP: 192.168.2.10 
+        actions: #run these actions
+          1: 
+            action: test_plan
+            machine: kali
+            timeout: 50
+            parameters:
+              $IP: 192.168.2.10
+          2: 
+            action: test
+            machine: kali

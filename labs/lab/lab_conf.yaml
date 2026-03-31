@@ -1,0 +1,220 @@
+lab:
+  name: "KathaRange-demo"
+  description: "This is a demo lab"
+  version: "1.0"
+  author: "F. Pittacolo"
+
+devices:
+  # ===============================
+  # Routers
+  # ===============================
+  r1:
+    image: kathara/quagga
+    type: router
+    # You can copy files and folders in machine with key assets
+    #assets:
+     # - README.md
+    interfaces:
+      eth0: A1
+      eth1: A
+    addresses:
+      eth0: 192.168.3.1/24
+      eth1: 10.10.1.2/29
+
+  r2:
+    image: kathara/quagga
+    type: router
+    interfaces:
+      eth0: B
+      eth1: B1
+    addresses:
+      eth0: 10.10.2.2/29
+      eth1: 192.168.0.1/24
+
+  r3:
+    image: kathara/quagga
+    type: router
+    interfaces:
+      eth0: C
+      eth1: C1
+    addresses:
+      eth0: 10.10.3.2/29
+      eth1: 192.168.2.1/24
+
+
+  r4:
+    image: kathara/quagga
+    type: router
+    interfaces:
+      eth0: D
+    addresses:
+      eth0: 10.10.4.2/29
+    options:
+      bridged: true
+
+  r5:
+    image: snort:3.1.1-kathaRange
+    type: router
+    interfaces:
+      eth0: A
+      eth1: B
+      eth2: C
+      eth3: D
+    addresses:
+      eth0: 10.10.1.1/29
+      eth1: 10.10.2.1/29
+      eth2: 10.10.3.1/29
+      eth3: 10.10.4.1/29
+
+
+  # ===============================
+  # Servers
+  # ===============================
+  apache2_1:
+    image: kathara/base
+    interfaces:
+      eth0: A1
+    addresses:
+      eth0: 192.168.3.10/24
+
+  apache2_2:
+    image: vuln_apache:2.4.9-kathaRange
+    interfaces:
+      eth0: C1
+    addresses:
+      eth0: 192.168.2.10/24
+
+  tomcat2_1:
+    image: tomcat:9.0.0-kathaRange
+    interfaces:
+      eth0: A1
+    addresses:
+      eth0: 192.168.3.20/24
+
+  tomcat2_2:
+    image: tomcat:9.0.0-kathaRange
+    interfaces:
+      eth0: C1
+    addresses:
+      eth0: 192.168.2.20/24
+
+  # ===============================
+  # Workstations
+  # ===============================
+  pc1:
+    image: kathara/base
+    spawn_terminal: true
+    interfaces:
+      eth0: B1
+    addresses:
+      eth0: 192.168.0.21/24
+
+  script_2_1:
+    image: kathara/base
+    spawn_terminal: true
+    interfaces:
+      eth0: B1
+    addresses:
+      eth0: 192.168.0.30/24
+
+  kali:
+    image: kali:1.0.0-kathaRange
+    spawn_terminal: true
+    interfaces:
+      eth0: B1
+    addresses:
+      eth0: 192.168.0.10/24
+
+  metasploitable:
+    image: metasploitable:1.0.0-kathaRange
+    spawn_terminal: true
+    interfaces:
+      eth0: B1
+    addresses:
+      eth0: 192.168.0.40/24
+
+
+  caldera:
+    image: caldera:5.0.0-kathaRange
+    spawn_terminal: true
+    interfaces:
+      eth0: B1
+    addresses:
+      eth0: 192.168.0.20/24
+    options:
+      bridged: true
+      ports:
+        - "8888:8888/tcp"
+        
+  # ===============================
+  # Wazuh Setup
+  # ===============================
+  wazuh_indexer:
+    image: wazuh/wazuh-indexer:4.9.0
+    interfaces:
+      eth0: C1
+    addresses:
+      eth0: 192.168.2.22/24
+    options:
+      bridged: true
+      envs:
+        - "OPENSEARCH_JAVA_OPTS=-Xms2048m -Xmx4096m"
+        - "INDEXER_IP=192.168.2.22"
+        - "MANAGER_IP=192.168.2.23"
+      ports:
+        - "9200:9200/tcp"
+      ulimits:
+        - "memlock=-1:-1"
+        - "nofile=655360:655360"
+
+  wazuh_manager:
+    image: wazuh/wazuh-manager:4.9.0
+    interfaces:
+      eth0: C1
+    addresses:
+      eth0: 192.168.2.23/24
+    options:
+      bridged: true
+      envs:
+        - "INDEXER_URL=https://wazuh.indexer:9200"
+        - "INDEXER_USERNAME=admin"
+        - "INDEXER_PASSWORD=SecretPassword"
+        - "FILEBEAT_SSL_VERIFICATION_MODE=full"
+        - "SSL_CERTIFICATE_AUTHORITIES=/etc/ssl/root-ca.pem"
+        - "SSL_CERTIFICATE=/etc/ssl/filebeat.pem"
+        - "SSL_KEY=/etc/ssl/filebeat.key"
+        - "API_USERNAME=wazuh-wui"
+        - "API_PASSWORD=MyS3cr37P450r.*-"
+        - "INDEXER_IP=192.168.2.22"
+        - "MANAGER_IP=192.168.2.23"
+      ports:
+        - "1514:1514"
+        - "1515:1515"
+        - "514:514/udp"
+        - "55000:55000"
+      ulimits:
+        - "memlock=-1:-1"
+        - "nofile=655360:655360"
+
+  wazuh_dashboard:
+    image: wazuh/wazuh-dashboard:4.9.0
+    interfaces:
+      eth0: C1
+    addresses:
+      eth0: 192.168.2.21/24
+    options:
+      envs:
+        - "INDEXER_USERNAME=admin"
+        - "INDEXER_PASSWORD=SecretPassword"
+        - "SERVER_SSL_ENABLED=false"
+        - "WAZUH_API_URL=https://wazuh.manager"
+        - "DASHBOARD_USERNAME=kibanaserver"
+        - "DASHBOARD_PASSWORD=kibanaserver"
+        - "API_USERNAME=wazuh-wui"
+        - "API_PASSWORD=MyS3cr37P450r.*-"
+        - "INDEXER_IP=192.168.2.22"
+        - "MANAGER_IP=192.168.2.23"
+      bridged: true
+      ports:
+        - "443:5601/tcp"
+
